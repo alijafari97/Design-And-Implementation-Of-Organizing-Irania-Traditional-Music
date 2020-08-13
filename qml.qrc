@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>images/applicationwindow-background.jpg</file>
+    </qresource>
+    <qresource prefix="/pages">
+        <file>SearchPage.qml</file>
+        <file>AddPage.qml</file>
+        <file>ScrollablePage.qml</file>
+        <file>TrackForm.qml</file>
+    </qresource>
+</RCC>
