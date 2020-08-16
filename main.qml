@@ -143,7 +143,7 @@ ApplicationWindow {
             }
 
             Label {
-                text: "Qt Quick Controls 2 provides a set of controls that can be used to build complete interfaces in Qt Quick."
+                text: "by this application you can find the right music you feel to listen in fastes way!"
                 anchors.margins: 20
                 anchors.top: logo.bottom
                 anchors.left: parent.left

@@ -6,16 +6,28 @@ import QtQuick.Layouts 1.12
 GroupBox{
 
     property var trackNumber: 0
+    property  alias nameField: nameField
+    property  alias trackPathLabel: trackPathLabel
+    property  alias timeField: timeField
     property  alias kind: kind
+    property  alias musicianField: musicianField
+    property  alias singerField: singerField
+    property  alias dastgahField: dastgahField
+    property  alias gushehField: gushehField
+    property  alias musicalInstrumentField: musicalInstrumentField
+    property  alias composerField: composerField
+
+
 
 ColumnLayout{
     spacing: 30
+//    layoutDirection: Qt.RightToLeft
 
     Label {
         width: parent.width
         wrapMode: Label.Wrap
         horizontalAlignment: Qt.AlignHCenter
-        text: qsTr("Track") + " " +  trackNumber
+        text: qsTr("Track") + " " + trackNumber
     }
 
     Row {
@@ -46,6 +58,7 @@ ColumnLayout{
             folder: shortcuts.home
             selectFolder: false
             selectMultiple: false
+            nameFilters: [ "music files (*.mp3 *.wav *.flac)"]
             onAccepted: {
                 console.log("You chose: " + trackPathDialog.fileUrls)
                 trackPathLabel.text = fileUrl

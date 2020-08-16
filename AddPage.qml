@@ -2,9 +2,14 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Dialogs 1.3
 import QtQuick.Layouts 1.12
+import alijafari.musicorganizer 1.0
+import QtQuick.Controls.Material 2.12
 
 ScrollablePage {
     id: page
+//    ColumnLayout{
+//        layoutDirection: Qt.RightToLeft
+
     Column {
         spacing: 10
         width: parent.width
@@ -25,7 +30,7 @@ ScrollablePage {
             }
             TextField {
                 id: nameField
-                placeholderText: "name"
+                placeholderText: qsTr("name")
                 width: 300
             }
         }
@@ -74,7 +79,7 @@ ScrollablePage {
 
         }
 
-        Row{//pic
+        Row{
             spacing: 20
 
             Button{
@@ -88,7 +93,7 @@ ScrollablePage {
                 folder: shortcuts.home
                 selectMultiple: false
                 selectFolder: false
-                nameFilters: [ "music files (*.mp3 *.wav *.flac)"]
+                nameFilters: [ "image files (*.jpg *.png *.jpeg)"]
                 onAccepted: {
                     console.log("You chose: " + picPathDialog.fileUrls)
                     picPathLabel.text = picPathDialog.fileUrl
@@ -123,7 +128,7 @@ ScrollablePage {
                 text: qsTr("Total Time:")
             }
             TextField {
-                id: timeField
+                id: totalTimeField
                 placeholderText: qsTr("total time")
                 width: 300
             }
@@ -137,6 +142,7 @@ ScrollablePage {
             }
 
             TextArea {
+                id: lyricsField
                 wrapMode: TextArea.Wrap
                 width: 400
             }
@@ -150,6 +156,7 @@ ScrollablePage {
             }
 
             TextArea {
+                id: commentField
                 wrapMode: TextArea.Wrap
                 width: 400
             }
@@ -171,6 +178,7 @@ ScrollablePage {
 
             Button{
                 text: qsTr("make tracks")
+                //TODO handle if push more than once or when it was smaller value
                 onClicked: {for (var i = 0; i < numOfTrackBox.value; i++) {tracksModel.append({"index": i})}}
             }
 
@@ -194,8 +202,9 @@ ScrollablePage {
             spacing: 10
             interactive: false
 
-            delegate: TrackForm {
+            delegate :TrackForm {
                 trackNumber: model.index + 1
+                objectName: "trackform"
 
             }
 
@@ -222,6 +231,60 @@ ScrollablePage {
 
         }
 
+        Row{
+
+            Button{
+                text: qsTr("Save")
+                onClicked: {
+                    var result = addNewData.insertNewAlbum(nameField.text,
+                                                           yearField.text,
+                                                           folderPathLabel.text,
+                                                           picPathLabel.text,
+                                                           totalTimeField.text,
+                                                           lyricsField.text,
+                                                           commentField.text,
+                                                           numOfTrackBox.value);
+
+                    console.log("QML:insertNewAlbum: ",result);
+                    if (result === "failed"){
+                        errorDialogLabel.text = qsTr("Something Wrong!!!");
+                        errorDialog.open();
+                        return;
+                    }
+
+                    for(var child in tracksView.contentItem.children) {
+                        if (tracksView.contentItem.children[child].objectName === "trackform"){
+                            var chItem = tracksView.contentItem.children[child];
+                            addNewData.insertNewTrack(result,
+                                                      chItem.trackNumber,
+                                                      chItem.nameField.text,
+                                                      chItem.trackPathLabel.text,
+                                                      chItem.timeField.text,
+                                                      chItem.kind.text,
+                                                      chItem.musicianField.text,
+                                                      chItem.singerField.text,
+                                                      chItem.dastgahField.text,
+                                                      chItem.gushehField.text,
+                                                      chItem.musicalInstrumentField.text,
+                                                      chItem.composerField.text);
+                        }
+                    }
+                }
+                Dialog {
+                    id: errorDialog
+
+                    title: "Error"
+
+                    Label {
+                        id: errorDialogLabel
+                        text: ""
+                    }
+                }
+            }
+        }
+
+
+//    }
 
     }
 }
