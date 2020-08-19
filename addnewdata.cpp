@@ -23,7 +23,7 @@ QString AddNewData::insertNewAlbum(const QString &name,
 
     q.addBindValue(name);
     q.addBindValue(lyrics);
-    q.addBindValue(year);
+    q.addBindValue(year);//TODO dorostesh konam
     q.addBindValue(picPath);
     q.addBindValue(comment);
     q.addBindValue(folderPath);
@@ -64,6 +64,9 @@ QString AddNewData::insertNewTrack(const QString &albumId,
     QVariant trackId = q.lastInsertId();
 
     QStringList musicianList = musician.split(",");
+    for (int i = 0; i < musicianList.size(); i++){
+        musicianList.replace(i, musicianList.at(i).trimmed());
+    }
     if(!q.prepare(QLatin1String("insert into T_Navazandeh(tn_name, t_id) values(?, ?)"))){
         qDebug() << q.lastError();
         return "failed";
@@ -75,6 +78,9 @@ QString AddNewData::insertNewTrack(const QString &albumId,
     }
 
     QStringList signerList = signer.split(",");
+    for (int i = 0; i < signerList.size(); i++){
+        signerList.replace(i, signerList.at(i).trimmed());
+    }
     if(!q.prepare(QLatin1String("insert into T_Khanandeh(tk_name, t_id) values(?, ?)"))){
         qDebug() << q.lastError();
         return "failed";
@@ -86,6 +92,9 @@ QString AddNewData::insertNewTrack(const QString &albumId,
     }
 
     QStringList dastgahList = dastgah.split(",");
+    for (int i = 0; i < dastgahList.size(); i++){
+        dastgahList.replace(i, dastgahList.at(i).trimmed());
+    }
     if(!q.prepare(QLatin1String("insert into T_Dastgah(td_name, t_id) values(?, ?)"))){
         qDebug() << q.lastError();
         return "failed";
@@ -97,6 +106,9 @@ QString AddNewData::insertNewTrack(const QString &albumId,
     }
 
     QStringList gushehList = gushe.split(",");
+    for (int i = 0; i < gushehList.size(); i++){
+        gushehList.replace(i, gushehList.at(i).trimmed());
+    }
     if(!q.prepare(QLatin1String("insert into T_Gusheh(tg_name, t_id) values(?, ?)"))){
         qDebug() << q.lastError();
         return "failed";
@@ -108,6 +120,9 @@ QString AddNewData::insertNewTrack(const QString &albumId,
     }
 
     QStringList musicalInstrumentList = musicalInstrument.split(",");
+    for (int i = 0; i < musicalInstrumentList.size(); i++){
+        musicalInstrumentList.replace(i, musicalInstrumentList.at(i).trimmed());
+    }
     if(!q.prepare(QLatin1String("insert into T_Saaz(ts_name, t_id) values(?, ?)"))){
         qDebug() << q.lastError();
         return "failed";
@@ -119,6 +134,9 @@ QString AddNewData::insertNewTrack(const QString &albumId,
     }
 
     QStringList composerList = composer.split(",");
+    for (int i = 0; i < composerList.size(); i++){
+        composerList.replace(i, composerList.at(i).trimmed());
+    }
     if(!q.prepare(QLatin1String("insert into T_Ahangsaz(ta_name, t_id) values(?, ?)"))){
         qDebug() << q.lastError();
         return "failed";
@@ -170,6 +188,7 @@ void AddNewData::selectAvailableMusician()
     availableMusician.append(tr("all"));
      QSqlQuery query("select distinct(tn_name) from T_Navazandeh");
      while (query.next()) {
+         if (query.value(0).toString() != "")
               availableMusician.append(query.value(0).toString());
      }
 }
@@ -179,6 +198,7 @@ void AddNewData::selectAvailableSigner()
     availableSigner.append(tr("all"));
     QSqlQuery query("select distinct(tk_name) from T_Khanandeh");
     while (query.next()) {
+        if (query.value(0).toString() != "")
              availableSigner.append(query.value(0).toString());
     }
 }
@@ -188,6 +208,7 @@ void AddNewData::selectAvailableDastgah()
     availableDastgah.append(tr("all"));
     QSqlQuery query("select distinct(td_name) from T_Dastgah");
     while (query.next()) {
+        if (query.value(0).toString() != "")
              availableDastgah.append(query.value(0).toString());
     }
 }
@@ -197,6 +218,7 @@ void AddNewData::selectAvailableGusheh()
     availableGusheh.append(tr("all"));
     QSqlQuery query("select distinct(tg_name) from T_Gusheh");
     while (query.next()) {
+        if (query.value(0).toString() != "")
              availableGusheh.append(query.value(0).toString());
     }
 }
@@ -206,6 +228,7 @@ void AddNewData::selectAvailableMusicalInstrument()
     availableMusicalInstrument.append(tr("all"));
     QSqlQuery query("select distinct(ts_name) from T_Saaz");
     while (query.next()) {
+        if (query.value(0).toString() != "")
              availableMusicalInstrument.append(query.value(0).toString());
     }
 }
@@ -215,6 +238,7 @@ void AddNewData::selectAvailableComposer()
     availableComposer.append(tr("all"));
     QSqlQuery query("select distinct(ta_name) from T_Ahangsaz");
     while (query.next()) {
+        if (query.value(0).toString() != "")
              availableComposer.append(query.value(0).toString());
     }
 }

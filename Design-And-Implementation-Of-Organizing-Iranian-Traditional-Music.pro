@@ -15,7 +15,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         addnewdata.cpp \
-        main.cpp
+        main.cpp \
+        searchmusic.cpp
 
 RESOURCES += qml.qrc \
     qtquickcontrols2.conf \
@@ -59,6 +60,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES += \
 
 HEADERS += \
-    addnewdata.h
+    addnewdata.h \
+    searchmusic.h
 
 

@@ -8,8 +8,10 @@
 #include <QDir>
 #include <QtDebug>
 #include <QQmlContext>
+#include <QQmlComponent>
 
 #include "addnewdata.h"
+#include "searchmusic.h"
 
 static void connectToDatabase()
 {
@@ -46,6 +48,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     qmlRegisterType<AddNewData>("alijafari.musicorganizer", 1, 0, "AddNewData");
+    qmlRegisterType<SearchMusic>("alijafari.musicorganizer", 1, 0, "SearchMusic");
 
     QIcon::setThemeName("icons");
 
@@ -53,16 +56,31 @@ int main(int argc, char *argv[])
 
     connectToDatabase();
 
-    QQmlApplicationEngine engine;
+    QQmlEngine engine;
+//    QList<QObject *> dataList = {
+////            new DataObject("Item 1", "red", "0"),
+////            new DataObject("Item 2", "green", "0"),
+////            new DataObject("Item 3", "blue", "1"),
+////            new DataObject("Item 4", "yellow", "1")
+//        };
+//    engine.rootContext()->setContextProperty("resultModel", QVariant::fromValue(dataList)) ;
+    SearchMusic searchMusic(&engine, NULL);
+    searchMusic.responseToUi(true);
+
+    QQmlComponent component(&engine, "qrc:/main.qml");
+    QObject *object = component.create();
+    searchMusic.setMainQml(object);
+//    SearchMusic searchMusic(object, &engine, NULL);
     AddNewData addNewData;
     engine.rootContext()->setContextProperty("addNewData", &addNewData);
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
-    engine.load(url);
+    engine.rootContext()->setContextProperty("searchMusci", &searchMusic);
+//    const QUrl url(QStringLiteral("qrc:/main.qml"));
+//    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+//                     &app, [url](QObject *obj, const QUrl &objUrl) {
+//        if (!obj && url == objUrl)
+//            QCoreApplication::exit(-1);
+//    }, Qt::QueuedConnection);
+//    engine.load(url);
 
     return app.exec();
 }

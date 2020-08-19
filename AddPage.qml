@@ -260,7 +260,7 @@ ScrollablePage {
                                                       chItem.nameField.text,
                                                       chItem.trackPathLabel.text,
                                                       chItem.timeField.text,
-                                                      chItem.kind.text,
+                                                      chItem.kind.currentText,
                                                       chItem.musicianField.text,
                                                       chItem.singerField.text,
                                                       chItem.dastgahField.text,

@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import alijafari.musicorganizer 1.0
 
+
 ScrollablePage {
     id: page
 
@@ -126,7 +127,7 @@ ScrollablePage {
             }
 
             ComboBox {
-                id: musicalInstrument
+                id: musicalInstrumentCB
                 editable: true
                 model: addNewData.getAvailableMusicalInstrument()
                 width: 300
@@ -198,6 +199,25 @@ ScrollablePage {
                         kindModel.append({text: editText})
                 }
 
+            }
+        }
+
+        Row{
+
+            Button{
+                text: qsTr("Search")
+                onClicked: {
+                    searchMusci.findMusicsInDatabase(albumNameField.text,
+                                                     nameField.text,
+                                                     musicianCB.currentText,
+                                                     signerCB.currentText,
+                                                     dastgahCB.currentText,
+                                                     gushehCB.currentText,
+                                                     musicalInstrumentCB.currentText,
+                                                     composer.currentText,
+                                                     lyricsField.text,
+                                                     kind.currentText);
+                }
             }
         }
 
