@@ -218,6 +218,21 @@ void SearchMusic::responseToUi(bool isAll)
     QString rT_Ahangsaz = "";
 
     for (int i = 0; i < trackIdResult.length(); i++){
+        ra_name = "";
+        ra_lyrics = "";
+        ra_year = "";
+        ra_pic = "";
+        rt_name = "";
+        rt_path = "";
+        rt_time = "";
+        rt_kind = "";
+        rT_Navazandeh = "";
+        rT_Khanandeh = "";
+        rT_Dastgah = "";
+        rT_Gusheh = "";
+        rT_Saaz = "";
+        rT_Ahangsaz = "";
+
         query = QSqlQuery("select * from Track NATURAL JOIN Album where t_id = " + QString::number(trackIdResult.at(i)));
         query.next();
 
@@ -498,4 +513,54 @@ void DataObject::setT_Ahangsaz(const QString &T_Ahangsaz)
         return;
     _T_Ahangsaz = T_Ahangsaz;
     emit T_AhangsazChanged();
+}
+
+void SearchMusic::playExternal(const QString &filePath)
+{
+    QDesktopServices::openUrl(filePath);
+    qDebug() << "ChatMessageWidget::showOnExplorer | " << filePath;
+//    if(filePath.isEmpty())
+//        return;
+//#ifdef Q_OS_WIN32
+//    QStringList args;
+//    args << "/select," << QDir::toNativeSeparators(filePath);
+//    qDebug() << "ChatMessageWidget::showOnExplorer | " << args;
+//    QProcess::startDetached("explorer.exe",args);
+//#elif defined(Q_OS_MAC)
+//    QStringList scriptArgs;
+//    scriptArgs << QLatin1String("-e")
+//               << QString::fromLatin1("tell application \"Finder\" to reveal POSIX file \"%1\"")
+//                  .arg(filePath);
+//    QProcess::execute(QLatin1String("/usr/bin/osascript"), scriptArgs);
+//    scriptArgs.clear();
+//    scriptArgs << QLatin1String("-e")
+//               << QLatin1String("tell application \"Finder\" to activate");
+//    QProcess::execute("/usr/bin/osascript", scriptArgs);
+//#else
+//    auto absolutePath = QFileInfo(filePath).absoluteFilePath();
+//    QProcess process;
+//    process.start("xdg-mime", QStringList() << "query" << "default" << "inode/directory");
+//    process.waitForFinished();
+//    auto output = QString::fromLatin1(process.readLine().simplified());
+//    auto command = "xdg-open";
+//    auto arguments = QStringList();
+//    if (output == QString("dolphin.desktop") || output == QString("org.kde.dolphin.desktop")) {
+//        command = "dolphin";
+//        arguments << "--select" << absolutePath;
+//    } else if (output == QString("nautilus.desktop") || output == QString("org.gnome.Nautilus.desktop") || output == QString("nautilus-folder-handler.desktop")) {
+//        command = "nautilus";
+//        arguments << absolutePath;
+//    } else if (output == QString("nemo.desktop")) {
+//        command = "nemo";
+//        arguments << absolutePath;
+//    } else if (output == QString("konqueror.desktop") || output == QString("kfmclient_dir.desktop")) {
+//        command = "konqueror";
+//        arguments << "--select" << absolutePath;
+//    } else {
+//        arguments << QFileInfo(filePath).absoluteDir().absolutePath();
+//    }
+//    if (!process.startDetached(command, arguments)) {
+//        qDebug() << "ChatMessageWidget::showOnExplorer | Failed to launch " <<command <<arguments.join(' ');
+//    }
+//#endif
 }

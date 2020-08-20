@@ -140,12 +140,120 @@ ApplicationWindow {
             }
 
             ListView {
-                width: window.width - 20; height: window.height - 20
+                id: resultView
+                width: window.width - 20; height: window.height - 100
+                spacing: 10
                 model: resultModel
 
                 delegate: GroupBox {
-                    ColumnLayout{
-                        Label{ text: model.t_name }
+//                    ColumnLayout{
+                        Row{
+                            spacing: 20
+                            Image {
+                                id: trackpic
+                                source: model.a_pic
+                                width: 100
+                                height: 100
+                                fillMode: Image.PreserveAspectFit
+                            }
+                            Row{
+                                id: row
+                                property var maxWidth : 250
+                                spacing:40
+                                Column{
+
+
+                                    spacing: 10
+
+                                    Row{
+                                        spacing: 30
+                                        Label{ text: model.t_name }
+                                        Label{ text: model.t_time }
+                                    }
+
+                                        Label { text: qsTr("Signer: ") + model.T_Khanandeh; width: row.maxWidth;wrapMode: Label.WordWrap}
+                                        Label { text: qsTr("Musician: ") + model.T_Navazandeh; width: row.maxWidth;wrapMode: Label.WordWrap}
+                                        Label { text: qsTr("Composer: ") + model.T_Ahangsaz; width: row.maxWidth;wrapMode: Label.WordWrap}
+                                }
+                                Column{
+                                    spacing: 10
+
+                                    Label{ text: qsTr("Kind: ") + model.t_kind; width: row.maxWidth;wrapMode: Label.WordWrap}
+                                    Label { text: qsTr("Dastgah: ") + model.T_Dastgah; width: row.maxWidth;wrapMode: Label.WordWrap }
+                                    Label { text: qsTr("Gusheh: ") + model.T_Gusheh; width: row.maxWidth;wrapMode: Label.WordWrap}
+                                    Label { text: qsTr("Saaz: ") + model.T_Saaz; width: row.maxWidth;wrapMode: Label.WordWrap }
+
+                                }
+                                Column{
+                                    spacing: 5
+                                    Label{ text: qsTr("Album: ") + model.a_name}
+                                    Label{ text: qsTr("Year: ") + model.a_year}
+                                    Button{
+                                        text: qsTr("Lyrics")
+                                        height: 30
+                                        onClicked: contentDialog.open()
+
+                                        Dialog {
+                                            id: contentDialog
+
+                                            x: 40
+                                            y: 40
+                                            width: resultView.width - 2*40
+                                            contentHeight: resultView.height -3*40
+                                            parent: Overlay.overlay
+
+                                            modal: true
+                                            title: qsTr("Lyrics")
+                                            standardButtons: Dialog.Close
+
+                                            Flickable {
+                                                id: flickable
+                                                clip: true
+                                                anchors.fill: parent
+                                                contentHeight: column.height
+
+                                                Column {
+                                                    id: column
+                                                    spacing: 20
+                                                    width: parent.width
+
+                                                    Image {
+                                                        id: logo
+                                                        width: 200
+                                                        anchors.horizontalCenter: parent.horizontalCenter
+                                                        fillMode: Image.PreserveAspectFit
+                                                        source: model.a_pic
+                                                    }
+
+                                                    Label {
+                                                        width: parent.width
+                                                        text: model.a_lyrics
+                                                        wrapMode: Label.Wrap
+                                                    }
+                                                }
+
+                                                ScrollIndicator.vertical: ScrollIndicator {
+                                                    parent: contentDialog.contentItem
+                                                    anchors.top: flickable.top
+                                                    anchors.bottom: flickable.bottom
+                                                    anchors.right: parent.right
+                                                    anchors.rightMargin: -contentDialog.rightPadding + 1
+                                                }
+                                            }
+                                        }
+                                    }
+                                    Button{
+                                        text: qsTr("play")
+                                        height: 30
+                                        onClicked: searchMusci.playExternal(model.t_path)
+                                    }
+
+                                }
+                            }
+
+//                        }
+
+
                     }
                 }
         }

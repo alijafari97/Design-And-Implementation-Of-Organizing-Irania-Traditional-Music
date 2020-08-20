@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QQmlEngine>
 #include <QtSql>
+#include <QDesktopServices>
 
 class SearchMusic : public QObject
 {
@@ -22,6 +23,7 @@ public:
                                           const QString &composer,
                                           const QString &Lyrics,
                                           const QString &kind);
+    Q_INVOKABLE void playExternal(const QString &filePath);
 
     void responseToUi(bool isAll = false);
     void setMainQml(QObject *mainqml);
