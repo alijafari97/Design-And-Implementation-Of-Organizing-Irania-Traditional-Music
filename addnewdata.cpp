@@ -7,7 +7,7 @@ AddNewData::AddNewData(QObject *parent) : QObject(parent)
 }
 
 QString AddNewData::insertNewAlbum(const QString &name,
-                                   const int &year,
+                                   const QString &year,
                                    const QString &folderPath,
                                    const QString &picPath,
                                    const QString &totalTime,
@@ -23,7 +23,7 @@ QString AddNewData::insertNewAlbum(const QString &name,
 
     q.addBindValue(name);
     q.addBindValue(lyrics);
-    q.addBindValue(year);//TODO dorostesh konam
+    q.addBindValue(year.toInt());
     q.addBindValue(picPath);
     q.addBindValue(comment);
     q.addBindValue(folderPath);

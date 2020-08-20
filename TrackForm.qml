@@ -103,6 +103,7 @@ ColumnLayout{
             editable: true
             model: ListModel {
                 id: kindModel
+                ListElement { text: qsTr("") }
                 ListElement { text: qsTr("Avaz") }
                 ListElement { text: qsTr("Saz Va Avaz") }
                 ListElement { text: qsTr("Saz") }

@@ -12,7 +12,7 @@ public:
     AddNewData(QObject *parent = nullptr);
 
     Q_INVOKABLE QString insertNewAlbum(const QString &name,
-                                       const int &year,
+                                       const QString &year,
                                        const QString &folderPath,
                                        const QString &picPath,
                                        const QString &totalTime,

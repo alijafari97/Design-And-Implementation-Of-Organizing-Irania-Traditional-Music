@@ -1,14 +1,14 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import alijafari.musicorganizer 1.0
+import QtQuick.Layouts 1.12
 
 
 ScrollablePage {
     id: page
 
-    Column {
+    ColumnLayout {
         spacing: 40
-        width: parent.width
 
         Row {
             spacing: 20
