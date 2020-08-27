@@ -74,6 +74,8 @@ int main(int argc, char *argv[])
     AddNewData addNewData;
     engine.rootContext()->setContextProperty("addNewData", &addNewData);
     engine.rootContext()->setContextProperty("searchMusci", &searchMusic);
+
+    QMetaObject::invokeMethod(object, "showAbout");
 //    const QUrl url(QStringLiteral("qrc:/main.qml"));
 //    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
 //                     &app, [url](QObject *obj, const QUrl &objUrl) {

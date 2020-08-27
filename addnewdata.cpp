@@ -153,6 +153,44 @@ QString AddNewData::insertNewTrack(const QString &albumId,
 
 }
 
+void AddNewData::importFromjson(const QString &path)
+{
+    QString val;
+    QFile file;
+    file.setFileName(QUrl(path).toLocalFile());
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    val = file.readAll();
+    file.close();
+    QJsonDocument d = QJsonDocument::fromJson(val.toUtf8());
+    QJsonArray items = d.object().value("data").toArray();
+    foreach (QJsonValue item, items) {
+        QString albumId = insertNewAlbum(item.toObject().value("a_name").toString(),
+                                         item.toObject().value("a_year").toString(),
+                                         item.toObject().value("a_folder_patth").toString(),
+                                         item.toObject().value("a_pic_path").toString(),
+                                         item.toObject().value("a_total-time").toString(),
+                                         item.toObject().value("a_lyrics").toString(),
+                                         item.toObject().value("a_comment").toString(),
+                                         item.toObject().value("a_num_of_track").toInt());
+        QJsonArray tracks = item.toObject().value("tracks").toArray();
+        foreach (QJsonValue track, tracks) {
+            insertNewTrack(albumId,
+                           track.toObject().value("track_number").toInt(),
+                           track.toObject().value("t_name").toString(),
+                           track.toObject().value("t_file_path").toString(),
+                           track.toObject().value("t_time").toString(),
+                           track.toObject().value("t_kind").toString(),
+                           track.toObject().value("musician").toString(),
+                           track.toObject().value("signer").toString(),
+                           track.toObject().value("dastgah").toString(),
+                           "",
+                           track.toObject().value("musicalInstrument").toString(),
+                           track.toObject().value("composer").toString()
+                           );
+        }
+    }
+}
+
 QVariant AddNewData::getAvailableMusician()
 {
     return QVariant::fromValue(availableMusician);

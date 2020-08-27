@@ -25,7 +25,7 @@ public:
                                           const QString &kind);
     Q_INVOKABLE void playExternal(const QString &filePath);
 
-    void responseToUi(bool isAll = false);
+    Q_INVOKABLE void responseToUi(bool isAll = false);
     void setMainQml(QObject *mainqml);
 signals:
 

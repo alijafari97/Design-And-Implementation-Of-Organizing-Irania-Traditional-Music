@@ -32,6 +32,9 @@ public:
                                        const QString &gushe,
                                        const QString &musicalInstrument,
                                        const QString &composer);
+
+    Q_INVOKABLE void importFromjson(const QString &path);
+
     Q_INVOKABLE QVariant getAvailableMusician();
     Q_INVOKABLE QVariant getAvailableSigner();
     Q_INVOKABLE QVariant getAvailableDastgah();

@@ -4,6 +4,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import QtQuick.Controls.Universal 2.12
 import QtQuick.Layouts 1.12
+import QtQuick.Dialogs 1.0
 
 ApplicationWindow {
     id: window
@@ -18,6 +19,11 @@ ApplicationWindow {
             stackView.pop()
             return "some return value"
         }
+
+    function showAbout(){
+        aboutDialog.open()
+    }
+
     Shortcut {
         sequence: "Ctrl+Q"
         onActivated: Qt.quit()
@@ -83,12 +89,92 @@ ApplicationWindow {
                     transformOrigin: Menu.TopRight
 
                     Action {
-                        text: "Settings"
-                        onTriggered: settingsDialog.open()
+                        text: qsTr("Import Json")
+                        onTriggered: jsonPathDialog.open()
                     }
                     Action {
-                        text: "About"
+                        text: qsTr("About")
                         onTriggered: aboutDialog.open()
+                    }
+                }
+            }
+            FileDialog {
+                id: jsonPathDialog
+                title: qsTr("Please choose a Json file")
+                folder: shortcuts.home
+                selectMultiple: false
+                selectFolder: false
+                onAccepted: {
+                    console.log("You chose: " + jsonPathDialog.fileUrls)
+                    addNewData.importFromjson(jsonPathDialog.fileUrls)
+                    searchMusci.responseToUi(true)
+                }
+                onRejected: {
+                    console.log("Canceled")
+                }
+            }
+
+            Dialog {
+                id: aboutDialog
+
+                x: 40
+                y: 40
+                width: resultView.width - 2*40
+                contentHeight: resultView.height -3*40
+                parent: Overlay.overlay
+
+                modal: true
+                title: qsTr("Music Organization")
+                standardButtons: Dialog.Close
+
+                background: Image {
+                    fillMode: Image.PreserveAspectCrop
+                    source: "file://Users/ali/Downloads/1111.jpg"
+                }
+
+                Flickable {
+                    id: flickable2
+                    clip: true
+                    anchors.fill: parent
+                    contentHeight: column.height
+
+                    Column {
+                        id: column2
+                        spacing: 20
+                        width: parent.width
+
+//                        Image {
+//                            id: logo
+//                            width: 400
+//                            anchors.horizontalCenter: parent.horizontalCenter
+//                            fillMode: Image.PreserveAspectFit
+//                            source: "file://Users/ali/Downloads/5306720.jpg"
+//                        }
+
+                        Label {
+                            width: parent.width
+                            text: "by this application you can find the right music you feel to listen in fastes way!\n\n"
+                            + "Search base on lots of iranian traditional music parameter like Dastgah, Gusheh, kind, saaz, etc \n\n"
+                            + "add your own musics and specify its parameter to search them later\n\n"
+                            + "import some famouse web-site musics\n\n"
+                            + "...\n\n\n\n"
+                            + "با استفاده از این برنامه می‌توانید بر اساس احساساتی که در لحظه دارید موسیقی مناسب را در زمانی کم پیدا کنید\n\n "
+                            + "جست‌و‌جو بر اساس مشخصه‌های مختلف موسیقی سنتی ایرانی  مانند دستگاه، گوشه، نوع، ساز و غیره\n\n"
+                            + "امکان اضافه کردن موسیقی شخصی خود و مشخص کردن مشخصه های آن\n\n"
+                            + "وارد کردن موسیقی های بعضی سایت های معروف\n\n"
+
+                            wrapMode: Label.Wrap
+                            horizontalAlignment: Qt.AlignHCenter
+                            font.pixelSize: 20
+                        }
+                    }
+
+                    ScrollIndicator.vertical: ScrollIndicator {
+                        parent: contentDialog.contentItem
+                        anchors.top: flickable.top
+                        anchors.bottom: flickable.bottom
+                        anchors.right: parent.right
+                        anchors.rightMargin: -contentDialog.rightPadding + 1
                     }
                 }
             }
@@ -136,7 +222,7 @@ ApplicationWindow {
             background: Image {
                 id: b
                 fillMode: Image.PreserveAspectCrop
-                source: "qrc:/images/applicationwindow-background.jpg"
+                source: /*"qrc:/images/applicationwindow-background.jpg"*/"file://Users/ali/Downloads/22.jpg"
             }
 
             ListView {
