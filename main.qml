@@ -129,7 +129,7 @@ ApplicationWindow {
 
                 background: Image {
                     fillMode: Image.PreserveAspectCrop
-                    source: "file://Users/ali/Downloads/1111.jpg"
+                    source: "qrc:/images/about.jpg"
                 }
 
                 Flickable {
@@ -222,7 +222,7 @@ ApplicationWindow {
             background: Image {
                 id: b
                 fillMode: Image.PreserveAspectCrop
-                source: /*"qrc:/images/applicationwindow-background.jpg"*/"file://Users/ali/Downloads/22.jpg"
+                source: /*"qrc:/images/applicationwindow-background.jpg"*/"qrc:/images/back.jpg"
             }
 
             ListView {

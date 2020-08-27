@@ -2,6 +2,8 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>images/applicationwindow-background.jpg</file>
+        <file>images/about.jpg</file>
+        <file>images/back.jpg</file>
     </qresource>
     <qresource prefix="/pages">
         <file>SearchPage.qml</file>
